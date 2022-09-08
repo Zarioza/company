@@ -27,4 +27,5 @@ Route::group([
     Route::get('/positions', [PositionController::class, 'index'])->name('position.index');
     Route::patch('/positions/{position:id}', [PositionController::class, 'update'])->name('position.update');
     Route::get('/positions/{position:id}', [PositionController::class, 'show'])->name('position.show');
+    Route::delete('/positions/{position:id}', [PositionController::class, 'destroy'])->name('position.destroy');
 });

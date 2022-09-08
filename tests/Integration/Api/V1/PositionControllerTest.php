@@ -164,4 +164,30 @@ class PositionControllerTest extends TestCase
 
         $this->assertEquals($resourceResponse, $response->json());
     }
+
+    /** @test */
+    public function expecting_not_found_if_position_not_exists_when_delete_position(): void
+    {
+        Position::factory()
+                ->create([
+                    'name' => 'Senior developer',
+                    'type' => Position::POSITION_REGULAR,
+                ]);
+
+        $this->deleteJson(route('api.position.destroy', ['position' => 999999]))
+             ->assertNotFound();
+    }
+
+    /** @test */
+    public function it_can_delete_position(): void
+    {
+        $position = Position::factory()
+                ->create([
+                    'name' => 'Senior developer',
+                    'type' => Position::POSITION_REGULAR,
+                ]);
+
+        $this->deleteJson(route('api.position.destroy', ['position' => $position]))
+             ->assertNoContent();
+    }
 }

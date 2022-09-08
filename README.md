@@ -40,6 +40,8 @@ start the app:
 
 ### Testing
 
+Run test:
+
 ```php artisan test```
 
 ## API endpoints:
@@ -69,7 +71,7 @@ GET api/v1/positions
 RESPONSE 200: PositionResource collection
 ```
 
-Edit positions:
+Edit position:
 
 ```
 REQUEST:
@@ -90,3 +92,11 @@ GET api/v1/positions/{position:id}
 RESPONSE 200: PositionResource
 ```
 
+Delete position:
+
+```
+REQUEST:
+DELETE api/v1/positions/{position:id}
+
+RESPONSE 204: No Content
+```

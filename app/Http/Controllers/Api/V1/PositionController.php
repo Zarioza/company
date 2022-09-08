@@ -8,7 +8,6 @@ use App\Http\Requests\UpdatePositionRequest;
 use App\Http\Resources\PositionResource;
 use App\Models\Position;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class PositionController extends Controller
@@ -64,9 +63,9 @@ class PositionController extends Controller
      * @param UpdatePositionRequest $request
      * @param Position $position
      *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function update(UpdatePositionRequest $request, Position $position)
+    public function update(UpdatePositionRequest $request, Position $position): JsonResponse
     {
         $position->save(
             $request->all()
@@ -80,11 +79,16 @@ class PositionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Position $position
+     *
+     * @return JsonResponse
      */
-    public function destroy($id)
+    public function destroy(Position $position): JsonResponse
     {
-        //
+        $position->delete();
+
+        return response()->json([
+            'data' => null
+        ], Response::HTTP_NO_CONTENT);
     }
 }
