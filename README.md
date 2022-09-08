@@ -100,3 +100,22 @@ DELETE api/v1/positions/{position:id}
 
 RESPONSE 204: No Content
 ```
+
+### Employee
+
+Create employee:
+
+```
+REQUEST:
+POST api/v1/employee
+
+BODY: {
+    "name": "string|required",
+    "superior_id": "int|nullable",
+    "position_id": "int|required",
+    "start_date": "date_format:"Y-m-d"|required",
+    "end_date": "date_format:"Y-m-d"|required",
+}
+
+RESPONSE 201: EmployeeResource
+```

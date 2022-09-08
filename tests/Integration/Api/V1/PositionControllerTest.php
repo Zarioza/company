@@ -13,6 +13,12 @@ class PositionControllerTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
+    public function simple(): void
+    {
+        $this->assertTrue(true);
+    }
+
+    /** @test */
     public function it_can_not_create_two_positions_with_same_name(): void
     {
         Position::factory()

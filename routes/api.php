@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\V1\EmployeeController;
 use App\Http\Controllers\Api\V1\PositionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -28,4 +29,6 @@ Route::group([
     Route::patch('/positions/{position:id}', [PositionController::class, 'update'])->name('position.update');
     Route::get('/positions/{position:id}', [PositionController::class, 'show'])->name('position.show');
     Route::delete('/positions/{position:id}', [PositionController::class, 'destroy'])->name('position.destroy');
+
+    Route::post('/employees', [EmployeeController::class, 'store'])->name('employee.store');
 });
