@@ -57,7 +57,7 @@ BODY: {
     "type": "string|required" (regular|management)
 }
 
-RESPONSE: PositionResource
+RESPONSE 201: PositionResource
 ```
 
 List positions:
@@ -66,7 +66,7 @@ List positions:
 REQUEST:
 GET api/v1/positions
 
-RESPONSE: PositionResource collection
+RESPONSE 200: PositionResource collection
 ```
 
 Edit positions:
@@ -78,7 +78,7 @@ BODY: {
     "name": "string|optional|unique",
     "type": "string|optional" (regular|management)
 }
-RESPONSE: PositionResource
+RESPONSE 202: PositionResource
 ```
 
 Show single position:
@@ -87,6 +87,6 @@ Show single position:
 REQUEST:
 GET api/v1/positions/{position:id}
 
-RESPONSE: PositionResource
+RESPONSE 200: PositionResource
 ```
 
