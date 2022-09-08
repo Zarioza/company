@@ -69,3 +69,15 @@ GET api/v1/positions
 RESPONSE: PositionResource collection
 ```
 
+Edit positions:
+
+```
+REQUEST:
+PATCH api/v1/positions/{position:id}
+BODY: {
+    "name": "string|optional|unique",
+    "type": "string|optional" (regular|management)
+}
+RESPONSE: PositionResource
+```
+

@@ -5,6 +5,7 @@ namespace Tests\Integration\Api\V1;
 use App\Http\Resources\PositionResource;
 use App\Models\Position;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
 class PositionControllerTest extends TestCase
@@ -62,8 +63,73 @@ class PositionControllerTest extends TestCase
         $response = $this->getJson(route('api.position.index'))
                          ->assertOk();
 
-        $responseResource = PositionResource::collection(Position::all())->response()->getData(true);
+        $resourceResponse = PositionResource::collection(Position::all())->response()->getData(true);
 
-        $this->assertEquals($responseResource, $response->json());
+        $this->assertEquals($resourceResponse, $response->json());
+    }
+
+    /** @test */
+    public function expecting_not_found_if_position_not_exists_when_edit_position(): void
+    {
+        Position::factory()
+                ->create([
+                    'name' => 'Senior developer',
+                    'type' => Position::POSITION_REGULAR,
+                ]);
+
+        $payload = [
+            'name' => 'Lead developer',
+        ];
+
+        $this->patchJson(route('api.position.update', ['position' => 999999]), $payload)
+             ->assertNotFound();
+    }
+
+    /** @test */
+    public function expecting_unprocessable_if_name_or_type_not_valid_when_edit_position(): void
+    {
+        $position = Position::factory()
+                ->create([
+                    'name' => 'Senior developer',
+                    'type' => Position::POSITION_REGULAR,
+                ]);
+
+        $payload = [
+            'name' => 'Senior developer',
+        ];
+
+        $this->patchJson(route('api.position.update', ['position' => $position]), $payload)
+             ->assertUnprocessable();
+
+        $payload = [
+            'type' => 'invalid type',
+        ];
+
+        $this->patchJson(route('api.position.update', ['position' => $position]), $payload)
+             ->assertUnprocessable();
+    }
+
+    /** @test */
+    public function it_can_update_existing_position(): void
+    {
+        $position = Position::factory()
+                            ->create([
+                                'name' => 'Senior developer',
+                                'type' => Position::POSITION_REGULAR,
+                            ]);
+
+        $payload = [
+            'name' => 'Lead developer',
+            'type' => Position::POSITION_MANAGEMENT,
+        ];
+
+        $response = $this->patchJson(route('api.position.update', ['position' => $position]), $payload)
+             ->assertStatus(Response::HTTP_ACCEPTED);
+
+        $resourceResponse = PositionResource::make($position->refresh())
+                                            ->response()
+                                            ->getData(true);
+
+        $this->assertEquals($resourceResponse, $response->json());
     }
 }

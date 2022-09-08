@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePositionRequest;
+use App\Http\Requests\UpdatePositionRequest;
 use App\Http\Resources\PositionResource;
 use App\Models\Position;
 use Illuminate\Http\JsonResponse;
@@ -15,7 +16,7 @@ class PositionController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function index(): JsonResponse
     {
@@ -48,24 +49,33 @@ class PositionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param UpdatePositionRequest $request
+     * @param Position $position
+     *
+     * @return JsonResponse
      */
-    public function show($id)
+    public function show(): JsonResponse
     {
-        //
+
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param UpdatePositionRequest $request
+     * @param Position $position
+     *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdatePositionRequest $request, Position $position)
     {
-        //
+        $position->save(
+            $request->all()
+        );
+
+        return PositionResource::make($position)
+                               ->response()
+                               ->setStatusCode(Response::HTTP_ACCEPTED);
     }
 
     /**

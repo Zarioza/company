@@ -25,4 +25,5 @@ Route::group([
 ], function () {
     Route::post('/positions', [PositionController::class, 'store'])->name('position.store');
     Route::get('/positions', [PositionController::class, 'index'])->name('position.index');
+    Route::patch('/positions/{position:id}', [PositionController::class, 'update'])->name('position.update');
 });
