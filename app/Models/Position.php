@@ -9,6 +9,9 @@ class Position extends Model
 {
     use HasFactory;
 
+    public const POSITION_REGULAR = 'regular';
+    public const POSITION_MANAGEMENT = 'management';
+
     protected $fillable = [
         'name', 'start_date', 'end_date',
     ];
