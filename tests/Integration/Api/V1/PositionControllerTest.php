@@ -45,4 +45,25 @@ class PositionControllerTest extends TestCase
 
         $this->assertEquals($positionResource, $response->json());
     }
+
+    /** @test */
+    public function it_can_list_positions(): void
+    {
+        Position::factory()
+                ->create([
+                    'type' => Position::POSITION_REGULAR,
+                ]);
+
+        Position::factory()
+                ->create([
+                    'type' => Position::POSITION_REGULAR,
+                ]);
+
+        $response = $this->getJson(route('api.position.index'))
+                         ->assertOk();
+
+        $responseResource = PositionResource::collection(Position::all())->response()->getData(true);
+
+        $this->assertEquals($responseResource, $response->json());
+    }
 }

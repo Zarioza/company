@@ -17,9 +17,13 @@ class PositionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): JsonResponse
     {
-        //
+        $positions = Position::all();
+
+        return PositionResource::collection($positions)
+                               ->response()
+                               ->setStatusCode(Response::HTTP_OK);
     }
 
     /**

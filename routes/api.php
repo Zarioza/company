@@ -24,4 +24,5 @@ Route::group([
     'as' => 'api.',
 ], function () {
     Route::post('/positions', [PositionController::class, 'store'])->name('position.store');
+    Route::get('/positions', [PositionController::class, 'index'])->name('position.index');
 });

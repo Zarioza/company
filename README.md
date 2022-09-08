@@ -46,6 +46,8 @@ start the app:
 
 ### Positions
 
+Create position:
+
 ```
 REQUEST:
 POST api/v1/positions
@@ -56,5 +58,14 @@ BODY: {
 }
 
 RESPONSE: PositionResource
+```
+
+List positions:
+
+```
+REQUEST:
+GET api/v1/positions
+
+RESPONSE: PositionResource collection
 ```
 
