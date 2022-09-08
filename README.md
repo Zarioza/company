@@ -37,3 +37,7 @@ run migrations:
 start the app:
 
 ```php artisan serve```
+
+### Testing
+
+```php artisan test```
