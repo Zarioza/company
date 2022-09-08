@@ -27,7 +27,7 @@ class EmployeeModelTest extends TestCase
     {
         $position = Position::factory()
                             ->create([
-                                'name' => Position::POSITION_REGULAR,
+                                'type' => Position::POSITION_REGULAR,
                             ]);
         $employee = Employee::factory()
                             ->create([

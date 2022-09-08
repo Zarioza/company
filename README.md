@@ -41,3 +41,20 @@ start the app:
 ### Testing
 
 ```php artisan test```
+
+## API endpoints:
+
+### Positions
+
+```
+REQUEST:
+POST api/v1/positions
+
+BODY: {
+    "name": "string|required|unique",
+    "type": "string|required" (regular|management)
+}
+
+RESPONSE: PositionResource
+```
+

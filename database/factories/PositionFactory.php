@@ -15,7 +15,8 @@ class PositionFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->randomElement([
+            'name' => $this->faker->jobTitle,
+            'type' => $this->faker->randomElement([
                 Position::POSITION_REGULAR,
                 Position::POSITION_MANAGEMENT,
             ]),

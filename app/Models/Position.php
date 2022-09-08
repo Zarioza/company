@@ -14,7 +14,7 @@ class Position extends Model
     public const POSITION_MANAGEMENT = 'management';
 
     protected $fillable = [
-        'name', 'start_date', 'end_date',
+        'name', 'type'
     ];
 
     public function employees(): HasMany
