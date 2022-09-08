@@ -132,4 +132,36 @@ class PositionControllerTest extends TestCase
 
         $this->assertEquals($resourceResponse, $response->json());
     }
+
+    /** @test */
+    public function expecting_not_found_if_position_not_exists_when_show_position(): void
+    {
+        Position::factory()
+                ->create([
+                    'name' => 'Senior developer',
+                    'type' => Position::POSITION_REGULAR,
+                ]);
+
+        $this->getJson(route('api.position.show', ['position' => 999999]))
+             ->assertNotFound();
+    }
+
+    /** @test */
+    public function it_can_show_single_position(): void
+    {
+        $position = Position::factory()
+                ->create([
+                    'name' => 'Senior developer',
+                    'type' => Position::POSITION_REGULAR,
+                ]);
+
+        $response = $this->getJson(route('api.position.show', ['position' => $position]))
+             ->assertOk();
+
+        $resourceResponse = PositionResource::make($position)
+                                            ->response()
+                                            ->getData(true);
+
+        $this->assertEquals($resourceResponse, $response->json());
+    }
 }

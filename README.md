@@ -81,3 +81,12 @@ BODY: {
 RESPONSE: PositionResource
 ```
 
+Show single position:
+
+```
+REQUEST:
+GET api/v1/positions/{position:id}
+
+RESPONSE: PositionResource
+```
+

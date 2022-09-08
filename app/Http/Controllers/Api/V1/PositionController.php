@@ -49,14 +49,13 @@ class PositionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param UpdatePositionRequest $request
      * @param Position $position
      *
      * @return JsonResponse
      */
-    public function show(): JsonResponse
+    public function show(Position $position): JsonResponse
     {
-
+        return PositionResource::make($position)->response()->setStatusCode(Response::HTTP_OK);
     }
 
     /**
