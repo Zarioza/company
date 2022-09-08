@@ -17,3 +17,23 @@ change directory:
 install dependencies:
 
 * ```composer install```
+
+create .env.testing file:
+
+```cp .env.testing.example .env.testing```
+
+create database:
+
+```php artisan db:create company```
+
+create test database:
+
+```php artisan db:create company_test```
+
+run migrations:
+
+```php artisan migrate```
+
+start the app:
+
+```php artisan serve```
