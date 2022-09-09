@@ -172,10 +172,14 @@ class EmployeeControllerTest extends TestCase
         $response = $this->getJson(route('api.employee.show', ['employee' => $employee]))
              ->assertOk();
 
-        $employeResource = EmployeeResource::make($employee->load('position'))
+        $employeeResource = EmployeeResource::make($employee->load('position'))
                                            ->response()
                                            ->getData(true);
 
-        $this->assertEquals($employeResource, $response->json());
+        $this->assertEquals($employeeResource, $response->json());
     }
+
+    /** @test */
+    public function it_can_edit_employee(): void
+    {}
 }
