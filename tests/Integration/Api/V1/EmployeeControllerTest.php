@@ -233,4 +233,11 @@ class EmployeeControllerTest extends TestCase
 
         $this->assertDatabaseMissing(Employee::class, $employee->toArray());
     }
+
+    /** @test */
+    public function expecting_not_found_if_employee_id_is_not_valid_when_delete_employee():void
+    {
+        $this->deleteJson(route('api.employee.destroy', ['employee' => 99999999999]))
+             ->assertNotFound();
+    }
 }
