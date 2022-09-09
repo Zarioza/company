@@ -36,4 +36,5 @@ Route::group([
     Route::patch('/employees/{employee:id}', [EmployeeController::class, 'update'])->name('employee.update');
     Route::delete('/employees/{employee:id}', [EmployeeController::class, 'destroy'])->name('employee.destroy');
     Route::get('/employees/superior/{employee:id}', [EmployeeController::class, 'findBySuperior'])->name('employee.superior.index');
+    Route::get('/employees/position/{position:id}', [EmployeeController::class, 'findByPosition'])->name('employee.position.index');
 });

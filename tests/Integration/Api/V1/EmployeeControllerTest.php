@@ -274,4 +274,36 @@ class EmployeeControllerTest extends TestCase
 
         $this->assertEquals($employeesResource, $response->json());
     }
+
+    /** @test */
+    public function it_can_list_all_employees_with_specific_position(): void
+    {
+        $senorPosition = Position::factory()->create([
+            'name' => 'Senior developer',
+            'type' => Position::POSITION_REGULAR,
+        ]);
+
+        $juniorPosition = Position::factory()->create([
+            'name' => 'Junior developer',
+            'type' => Position::POSITION_REGULAR,
+        ]);
+
+        Employee::factory(5)->create([
+            'position_id' => $senorPosition->id,
+        ]);
+
+        Employee::factory(10)->create([
+            'position_id' => $juniorPosition->id,
+        ]);
+
+        $response = $this->getJson(route('api.employee.position.index', ['position' => $senorPosition]))
+                         ->assertOk();
+
+        $this->assertCount(5, $response->json('data'));
+
+        $response = $this->getJson(route('api.employee.position.index', ['position' => $juniorPosition]))
+                         ->assertOk();
+
+        $this->assertCount(10, $response->json('data'));
+    }
 }

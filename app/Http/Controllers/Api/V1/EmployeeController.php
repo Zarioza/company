@@ -7,6 +7,7 @@ use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
 use App\Http\Resources\EmployeeResource;
 use App\Models\Employee;
+use App\Models\Position;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -106,6 +107,20 @@ class EmployeeController extends Controller
     public function findBySuperior(Employee $employee): JsonResponse
     {
         $employees = Employee::where('superior_id', $employee->id)->get();
+
+        return EmployeeResource::collection($employees->load(['position']))
+                               ->response()
+                               ->setStatusCode(Response::HTTP_OK);
+    }
+
+    /**
+     * @param Position $position
+     *
+     * @return JsonResponse
+     */
+    public function findByPosition(Position $position): JsonResponse
+    {
+        $employees = Employee::where('position_id', $position->id)->get();
 
         return EmployeeResource::collection($employees->load(['position']))
                                ->response()
