@@ -97,4 +97,18 @@ class EmployeeController extends Controller
             [], Response::HTTP_NO_CONTENT
         );
     }
+
+    /**
+     * @param Employee $superior
+     *
+     * @return JsonResponse
+     */
+    public function findBySuperior(Employee $employee): JsonResponse
+    {
+        $employees = Employee::where('superior_id', $employee->id)->get();
+
+        return EmployeeResource::collection($employees->load(['position']))
+                               ->response()
+                               ->setStatusCode(Response::HTTP_OK);
+    }
 }

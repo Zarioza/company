@@ -240,4 +240,38 @@ class EmployeeControllerTest extends TestCase
         $this->deleteJson(route('api.employee.destroy', ['employee' => 99999999999]))
              ->assertNotFound();
     }
+
+    /** @test */
+    public function it_can_list_all_employees_that_belongs_superior(): void
+    {
+        $position = Position::factory()->create([
+            'name' => 'Senior developer',
+            'type' => Position::POSITION_REGULAR,
+        ]);
+
+        $managementPosition = Position::factory()->create([
+            'name' => 'Manager',
+            'type' => Position::POSITION_MANAGEMENT,
+        ]);
+
+        $superiorEmployee = Employee::factory()->create([
+            'position_id' => $managementPosition->id,
+        ]);
+
+        $employees = Employee::factory(5)->create([
+            'position_id' => $position->id,
+            'superior_id' => $superiorEmployee->id,
+        ]);
+
+        $response = $this->getJson(route('api.employee.superior.index', ['employee' => $superiorEmployee->id]))
+             ->assertOk();
+
+        $this->assertCount(5, $response->json('data'));
+
+        $employeesResource = EmployeeResource::collection($employees->load(['position']))
+                                             ->response()
+                                             ->getData(true);
+
+        $this->assertEquals($employeesResource, $response->json());
+    }
 }

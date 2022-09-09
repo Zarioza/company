@@ -182,3 +182,13 @@ Delete api/v1/employees/{employee:id}
 
 RESPONSE 204: No Content
 ```
+
+List all employees that belongs to superior:
+
+```
+REQUEST:
+GET api/v1/employees/superior/{employee:id}
+
+RESPONSE 200: EmployeeResource collection
+```
+
