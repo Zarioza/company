@@ -33,4 +33,5 @@ Route::group([
     Route::post('/employees', [EmployeeController::class, 'store'])->name('employee.store');
     Route::get('/employees', [EmployeeController::class, 'index'])->name('employee.index');
     Route::get('/employees/{employee:id}', [EmployeeController::class, 'show'])->name('employee.show');
+    Route::patch('/employees/{employee:id}', [EmployeeController::class, 'update'])->name('employee.update');
 });

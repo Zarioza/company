@@ -67,7 +67,7 @@ class PositionController extends Controller
      */
     public function update(UpdatePositionRequest $request, Position $position): JsonResponse
     {
-        $position->save(
+        $position->update(
             $request->all()
         );
 

@@ -7,6 +7,7 @@ use App\Models\Employee;
 use App\Models\Position;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Carbon;
+use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
 class EmployeeControllerTest extends TestCase
@@ -181,5 +182,37 @@ class EmployeeControllerTest extends TestCase
 
     /** @test */
     public function it_can_edit_employee(): void
-    {}
+    {
+        $position = Position::factory()->create([
+            'name' => 'Senior developer',
+            'type' => Position::POSITION_REGULAR,
+        ]);
+
+        $managementPosition = Position::factory()->create([
+            'name' => 'Manager',
+            'type' => Position::POSITION_MANAGEMENT,
+        ]);
+
+        $employee = Employee::factory()->create([
+            'position_id' => $position->id,
+        ]);
+
+        $payload = [
+            'name' => 'Edited name',
+            'position_id' => $managementPosition->id,
+            'superior_id' => null,
+            'start_date' => Carbon::now()->format('Y-m-d'),
+            'end_date' => Carbon::now()->addYears(5)->format('Y-m-d'),
+        ];
+
+        $response = $this->patchJson(route('api.employee.update', ['employee' => $employee]), $payload)
+                         ->assertStatus(Response::HTTP_ACCEPTED);
+
+        $editedEmployee = Employee::where('name', 'LIKE', $payload['name'])->first();
+        $employeeResource = EmployeeResource::make($editedEmployee->load(['position']))
+                                            ->response()
+                                            ->getData(true);
+
+        $this->assertEquals($employeeResource, $response->json());
+    }
 }

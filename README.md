@@ -156,3 +156,20 @@ GET api/v1/employees/{employee:id}
 
 RESPONSE 200: EmployeeResource
 ```
+
+Update employee:
+
+```
+REQUEST:
+PATCH api/v1/employees/{employee:id}
+
+BODY: {
+    "name": "string|optional",
+    "superior_id": "int|optional",
+    "position_id": "int|optional",
+    "start_date": "date_format:"Y-m-d"|optional",
+    "end_date": "date_format:"Y-m-d"|optional",
+}
+
+RESPONSE 202: EmployeeResource
+```

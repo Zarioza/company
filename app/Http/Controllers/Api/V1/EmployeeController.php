@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreEmployeeRequest;
+use App\Http\Requests\UpdateEmployeeRequest;
 use App\Http\Resources\EmployeeResource;
 use App\Models\Employee;
 use Illuminate\Http\JsonResponse;
@@ -65,13 +66,20 @@ class EmployeeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param UpdateEmployeeRequest $request
+     * @param Employee $employee
+     *
+     * @return JsonResponse
      */
-    public function update(Request $request, $id)
+    public function update(UpdateEmployeeRequest $request, Employee $employee): JsonResponse
     {
-        //
+        $employee->update(
+            $request->all()
+        );
+
+        return EmployeeResource::make($employee->load(['position']))
+                               ->response()
+                               ->setStatusCode(Response::HTTP_ACCEPTED);
     }
 
     /**
