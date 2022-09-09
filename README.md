@@ -119,3 +119,31 @@ BODY: {
 
 RESPONSE 201: EmployeeResource
 ```
+
+Create employee:
+
+```
+REQUEST:
+POST api/v1/employees
+
+BODY: {
+    "name": "string|required",
+    "superior_id": "int|nullable",
+    "position_id": "int|required",
+    "start_date": "date_format:"Y-m-d"|required",
+    "end_date": "date_format:"Y-m-d"|required",
+}
+
+RESPONSE 201: EmployeeResource
+```
+
+List all employees:
+
+```
+REQUEST:
+GET api/v1/employees
+
+QUERY PARAMETERS => page (optional) ie.  api/v1/employees?page=2
+
+RESPONSE 200: EmployeeResource collection paginated
+```

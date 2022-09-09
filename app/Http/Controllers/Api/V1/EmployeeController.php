@@ -15,11 +15,19 @@ class EmployeeController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     *
+     * @return JsonResponse
      */
-    public function index()
+    public function index(Request $request): JsonResponse
     {
-        //
+        $perPage = 6;
+
+        $employees = Employee::with('position')->paginate($perPage);
+
+        return EmployeeResource::collection($employees)
+                               ->response()
+                               ->setStatusCode(Response::HTTP_OK);
     }
 
     /**

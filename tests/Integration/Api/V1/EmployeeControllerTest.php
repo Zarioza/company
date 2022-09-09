@@ -22,11 +22,10 @@ class EmployeeControllerTest extends TestCase
     /** @test */
     public function it_can_create_employee(): void
     {
-        $position = Position::factory()
-                           ->create([
-                               'name' => 'Senior developer',
-                               'type' => Position::POSITION_REGULAR,
-                           ]);
+        $position = Position::factory()->create([
+            'name' => 'Senior developer',
+            'type' => Position::POSITION_REGULAR,
+        ]);
 
         $payload = [
             'name' => 'John Doe',
@@ -113,5 +112,41 @@ class EmployeeControllerTest extends TestCase
 
         $this->postJson(route('api.employee.store'), $payload)
              ->assertUnprocessable();
+    }
+
+    /** @test */
+    public function it_can_list_all_employees(): void
+    {
+        $position = Position::factory()->create([
+            'name' => 'Senior developer',
+            'type' => Position::POSITION_REGULAR,
+        ]);
+
+        Employee::factory(10)->create([
+            'position_id' => $position->id,
+        ]);
+
+        $currentPage = 1;
+
+        $response = $this->getJson(route('api.employee.index', ['page' => $currentPage]))
+                         ->assertOk();
+
+        $employees = Employee::with('position')->paginate(6);
+        $employeeResource = EmployeeResource::collection($employees)
+                                            ->response()
+                                            ->getData(true);
+
+        $this->assertEquals($employeeResource, $response->json());
+
+        $currentPage++;
+
+        while($currentPage <= $response->json('meta.last_page')) {
+            $response = $this->getJson(route('api.employee.index', ['page' => $currentPage]))
+                             ->assertOk();
+
+            $this->assertCount(4, $response->json('data'));
+
+            $currentPage++;
+        }
     }
 }
