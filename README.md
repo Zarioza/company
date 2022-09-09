@@ -173,3 +173,12 @@ BODY: {
 
 RESPONSE 202: EmployeeResource
 ```
+
+Delete employee:
+
+```
+REQUEST:
+Delete api/v1/employees/{employee:id}
+
+RESPONSE 204: No Content
+```

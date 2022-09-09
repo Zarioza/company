@@ -85,11 +85,16 @@ class EmployeeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Employee $employee
+     *
+     * @return JsonResponse
      */
-    public function destroy($id)
+    public function destroy(Employee $employee): JsonResponse
     {
-        //
+        $employee->delete();
+
+        return response()->json(
+            [], Response::HTTP_NO_CONTENT
+        );
     }
 }

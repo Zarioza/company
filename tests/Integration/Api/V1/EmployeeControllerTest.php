@@ -215,4 +215,22 @@ class EmployeeControllerTest extends TestCase
 
         $this->assertEquals($employeeResource, $response->json());
     }
+
+    /** @test */
+    public function it_can_delete_employee(): void
+    {
+        $position = Position::factory()->create([
+            'name' => 'Senior developer',
+            'type' => Position::POSITION_REGULAR,
+        ]);
+
+        $employee = Employee::factory()->create([
+            'position_id' => $position->id,
+        ]);
+
+        $this->deleteJson(route('api.employee.destroy', ['employee' => $employee]))
+             ->assertStatus(Response::HTTP_NO_CONTENT);
+
+        $this->assertDatabaseMissing(Employee::class, $employee->toArray());
+    }
 }
