@@ -149,4 +149,33 @@ class EmployeeControllerTest extends TestCase
             $currentPage++;
         }
     }
+
+    /** @test */
+    public function expecting_not_found_if_employee_id_is_not_valid_when_shoe_employee():void
+    {
+        $this->getJson(route('api.employee.show', ['employee' => 999999]))
+             ->assertNotFound();
+    }
+
+    /** @test */
+    public function it_can_show_employee(): void
+    {
+        $position = Position::factory()->create([
+            'name' => 'Senior developer',
+            'type' => Position::POSITION_REGULAR,
+        ]);
+
+        $employee = Employee::factory()->create([
+            'position_id' => $position->id,
+        ]);
+
+        $response = $this->getJson(route('api.employee.show', ['employee' => $employee]))
+             ->assertOk();
+
+        $employeResource = EmployeeResource::make($employee->load('position'))
+                                           ->response()
+                                           ->getData(true);
+
+        $this->assertEquals($employeResource, $response->json());
+    }
 }

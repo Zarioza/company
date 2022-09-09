@@ -147,3 +147,12 @@ QUERY PARAMETERS => page (optional) ie.  api/v1/employees?page=2
 
 RESPONSE 200: EmployeeResource collection paginated
 ```
+
+Show employee:
+
+```
+REQUEST:
+GET api/v1/employees/{employee:id}
+
+RESPONSE 200: EmployeeResource
+```

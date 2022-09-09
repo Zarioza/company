@@ -51,12 +51,15 @@ class EmployeeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Employee $employee
+     *
+     * @return JsonResponse
      */
-    public function show($id)
+    public function show(Employee $employee): JsonResponse
     {
-        //
+        return EmployeeResource::make($employee->load(['position']))
+                               ->response()
+                               ->setStatusCode(Response::HTTP_OK);
     }
 
     /**
